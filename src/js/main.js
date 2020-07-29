@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime'
 import * as faceapi from "face-api.js"
 
 const startVideo = async (video) => {
@@ -17,6 +18,7 @@ const tinyFaceDetectorOption = {
 }
 
 async function interval(canvas, displaySize) {
+  if(!video) return;
   const detectionsWithLandmarks = await faceapi
     .detectAllFaces(
       video,
@@ -43,15 +45,15 @@ async function interval(canvas, displaySize) {
 
 ;(async () => {
   await startVideo(video)
-  await faceapi.nets.tinyFaceDetector.loadFromUri("/models")
-  await faceapi.nets.faceLandmark68Net.loadFromUri("/models")
+  await faceapi.nets.tinyFaceDetector.loadFromUri("./models")
+  await faceapi.nets.faceLandmark68Net.loadFromUri("./models")
+  if(!video) return;
   video.addEventListener("play", () => {
     const canvas = faceapi.createCanvasFromMedia(video)
-    document.querySelector("main").append(canvas)
+    document.querySelector("main")?.append(canvas)
     const displaySize = { width: video.width, height: video.height }
     faceapi.matchDimensions(canvas, displaySize)
     window.requestAnimationFrame(() => interval(canvas, displaySize))
   })
 })()
 
-console.log(faceapi)

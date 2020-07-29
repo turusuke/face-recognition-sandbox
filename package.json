@@ -2,14 +2,11 @@
   "name": "face-recognition-sandbox",
   "version": "1.0.0",
   "description": "",
-  "targets": {
-    "main": {}
-  },
   "dependencies": {
     "face-api.js": "^0.22.2"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
+    "@babel/preset-env": "^7.10.4",
     "browser-sync": "^2.26.12",
     "cpx": "^1.5.0",
     "npm-run-all": "^4.1.5",
@@ -22,9 +19,11 @@
     "start": "run-s build watch",
     "watch": "run-p watch:js server",
     "watch:js": "parcel watch src/index.html --no-hmr",
-    "server": "browser-sync start --server 'dist/main' --files 'dist/main'",
-    "build": "rimraf ./dist; cpx 'src/models/*' dist/main/models; parcel build src/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "browser-sync start --server 'dist' --files 'dist'",
+    "build": "rimraf ./dist; cpx 'src/models/*' dist/models; parcel build src/index.html --dist-dir dist",
+    "build:parcel": "parcel build src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
