@@ -49,9 +49,11 @@ function App() {
     const video = document.querySelector("video");
     if (!video) return;
     (async () => {
-      await startVideo(video);
-      await faceapi.nets.tinyFaceDetector.loadFromUri("/face-recognition-sandbox/models");
-      await faceapi.nets.faceLandmark68Net.loadFromUri("/face-recognition-sandbox/models");
+      await Promise.all([
+        startVideo(video),
+        faceapi.nets.tinyFaceDetector.loadFromUri("/face-recognition-sandbox/models"),
+        faceapi.nets.faceLandmark68Net.loadFromUri("/face-recognition-sandbox/models")]);
+
       video.addEventListener("play", () => {
         const canvas = faceapi.createCanvasFromMedia(video);
         document.querySelector("main")?.append(canvas);
